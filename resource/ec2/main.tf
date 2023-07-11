@@ -3,22 +3,24 @@ resource "aws_instance" "web" {
   instance_type = "t3.small"
   vpc_security_group_ids = [aws_security_group.sample.id]
 
+  tags = {
+    Name = var.Name
+  }
+}
+
+resource "null_resource" "roboshop" {
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
       user     = "centos"
       password = "DevOps321"
-      host     = self.public_ip
+      host     = aws_instance.web.public_ip
 
       inline = [
         "sudo labauto ansible",
         "ansible-pull -i localhost, -U https://github.com/janardhanReddy-B/roboshop-ansible-b.git -e env=dev -e role_name=${var.Name}",
       ]
     }
-  }
-
-  tags = {
-    Name = var.Name
   }
 }
 
@@ -40,10 +42,17 @@ resource "aws_security_group" "sample" {
     to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = {
     Name = "allow_tls"
   }
+}
+
+resource "aws_route53_record" "wed" {
+  zone_id = Z03052753T4U1K1QH805F
+  name    = "${var.Name}-dev"
+  type    = "A"
+  ttl     = 30
+  records = [aws_instance.web.private_ip]
 }
