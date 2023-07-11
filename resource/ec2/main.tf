@@ -3,13 +3,26 @@ resource "aws_instance" "web" {
   instance_type = "t3.small"
   vpc_security_group_ids = [aws_security_group.sample.id]
 
+  provisioner "remote-exec" {
+    connection {
+      type     = "ssh"
+      user     = "centos"
+      password = "DevOps321"
+      host     = self.public_ip
+
+      inline = [
+        "sudo labauto ansible",
+        "ansible-pull -i localhost, -U https://github.com/janardhanReddy-B/roboshop-ansible-b.git -e env=dev -e role_name=${var.Name}",
+      ]
+    }
+  }
+
   tags = {
     Name = var.Name
   }
 }
 
 variable "Name" {}
-
 
 resource "aws_security_group" "sample" {
   name        = var.Name
