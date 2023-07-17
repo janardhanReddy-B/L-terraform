@@ -9,6 +9,7 @@ resource "aws_instance" "web" {
 }
 
 resource "null_resource" "roboshop" {
+  depends_on = [aws_instance.web, aws_route53_record.wed]
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
