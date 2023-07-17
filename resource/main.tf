@@ -1,10 +1,12 @@
 module "sample" {
+  for_each = var.instances
   source = "./ec2"
-  Name = "frontend"
+  Name = each.key
 }
 
 variable "instances" {
   default = {
+
     frontend = {}
     mongodb = {}
     catalogue ={}
@@ -15,5 +17,6 @@ variable "instances" {
     payment = {}
     shipping = {}
     rabbitmq = {}
+
   }
 }
