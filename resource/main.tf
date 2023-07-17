@@ -2,6 +2,7 @@ module "sample" {
   for_each = var.instances
   source = "./ec2"
   Name = each.key
+  env = var.env
 }
 
 variable "instances" {
@@ -19,4 +20,8 @@ variable "instances" {
     rabbitmq = {}
 
   }
+}
+
+variable "env" {
+  default = dev
 }

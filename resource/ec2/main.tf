@@ -4,7 +4,7 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.sample.id]
 
   tags = {
-    Name = var.Name
+    Name = var.Name - var.env
   }
 }
 
@@ -27,6 +27,7 @@ resource "null_resource" "roboshop" {
 }
 
 variable "Name" {}
+variable "env" {}
 
 resource "aws_security_group" "sample" {
   name        = var.Name
