@@ -9,7 +9,7 @@ resource "aws_instance" "web" {
 }
 
 resource "null_resource" "roboshop" {
-  depends_on = [aws_instance.web, aws_route53_record.wed]
+  depends_on = [aws_instance.web, aws_route53_record.web]
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
@@ -49,8 +49,8 @@ resource "aws_security_group" "sample" {
   }
 }
 
-resource "aws_route53_record" "wed" {
-  zone_id = Z03052753T4U1K1QH805F
+resource "aws_route53_record" "web" {
+  zone_id = "Z03052753T4U1K1QH805F"
   name    = "${var.Name}-dev"
   type    = "A"
   ttl     = 30
