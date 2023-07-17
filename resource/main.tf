@@ -23,5 +23,5 @@ variable "instances" {
 }
 
 variable "env" {
-  default = dev
+  default = "dev"
 }
