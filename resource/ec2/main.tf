@@ -18,10 +18,10 @@ resource "null_resource" "roboshop" {
       host     = aws_instance.web.public_ip
 
     }
-      inline = [
-        "sudo labauto ansible",
-        "ansible-pull -i localhost, -U https://github.com/janardhanReddy-B/roboshop-ansible-b.git -e env=dev -e role_name=${var.Name}",
-      ]
+    inline = [
+      "sudo labauto ansible",
+      "ansible-pull -i localhost, -U https://github.com/janardhanReddy-B/roboshop-ansible-b.git -e env=dev -e role_name=${var.Name}",
+    ]
 
   }
 }
